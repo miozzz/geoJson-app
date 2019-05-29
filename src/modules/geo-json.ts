@@ -76,4 +76,10 @@ export class GeoParser {
         return stack
     }
 
+    decreaseRadius(data) {
+        data.forEach((feature)=>{
+           feature.height = feature.height / 1000;
+           feature.width = feature.width / 1000;
+        })
+    }
 }

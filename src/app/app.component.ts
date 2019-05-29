@@ -20,23 +20,30 @@ export class AppComponent implements OnInit {
   public startdate: string
   public enddate: string
   public logMessage: string
-
+  public fishdata: any
+   
   constructor(private http: HttpClient, private geojson: GeoJson, private geoparser: GeoParser) {
     //arbitrary default dates
     this.startdate = "1991-06-01"
     this.enddate = "1991-06-30"
     this.logMessage = ""
-
+    // this.http.get('../data/fishing-data.json').subscribe(data => {
+    //   this.fishdata = data
+    //   console.log(data)
+    // })
   }
   ngOnInit() {
     this.chart = this.makeChart()
   }
   plotQuakes() {
     this.logMessage = "Fetching earthquake data..."
-    this.geojson.getData(this.startdate, this.enddate)
+    // this.geojson.getData(this.startdate, this.enddate)
+    this.http.get('../assets/fishing-data.json')
       .subscribe((data) => {
+        console.log({"fsigdata":data})
         this.logMessage = "Parsing earthquake paramaters..."
-        let newData = this.geoparser.toAmChart(data)
+        // let newData = this.geoparser.toAmChart(data)
+        let newData = data
         this.chart.dataProvider.images = newData;
         this.logMessage = "Plotting earthquake data..."
         this.chart.validateData();
